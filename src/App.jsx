@@ -1,7 +1,7 @@
 import emotionStyled from "@emotion/styled";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import { NotFoundPage, DisplayPage, DetailPage, SearchPage } from "./pages";
-import { Header } from "./Header";
+import { SearchPage, NotFoundPage } from "./pages";
+import { Header } from "./pages/etc";
 
 const TempPage = ({ num }) => {
   return <div>{num}</div>;
@@ -10,9 +10,9 @@ const TempPage = ({ num }) => {
 const router = createBrowserRouter([
   {
     path: "/",
-    // element: <SearchPage />,
-    element: <TempPage num={1} />,
-    // errorElement: <NotFoundPage />,
+    element: <SearchPage />,
+
+    errorElement: <NotFoundPage />,
   },
   {
     path: "/main",
