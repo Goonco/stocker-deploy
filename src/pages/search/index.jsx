@@ -9,6 +9,8 @@ import { redirect, useNavigate } from "react-router-dom";
 import { Loading } from "../etc";
 import axios from "axios";
 
+import { BASE_URL } from "../../main";
+
 const theme = createTheme({
   palette: {
     myPurple: {
@@ -39,17 +41,18 @@ export const SearchPage = () => {
     };
 
     const fetchData = async () => {
-      console.log("test");
       try {
-        const response = await axios.get("http://3.36.243.210:8080/tickers");
-        console.log(response.data);
+        const response = await axios.get(`${BASE_URL}/tickers`);
+        setStockInfo(response.data);
+        setErrorMsg("주식 정보 로딩 완료 🤗");
+        setLoading(false);
       } catch (e) {
         console.log(`Error : ${e}`);
       }
     };
 
-    falseLoading();
-    // fetchData();
+    // falseLoading();
+    fetchData();
   }, []);
 
   const handleChange = (e) => {
