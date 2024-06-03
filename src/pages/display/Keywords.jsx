@@ -1,7 +1,5 @@
 import emotionStyled from "@emotion/styled";
-
-import { DUMMY_KEYWORDS } from "../../mock/dummy_data";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Keyword = ({ keyword }) => {
   const navigate = useNavigate();
@@ -13,12 +11,11 @@ const Keyword = ({ keyword }) => {
   return <KeywordBox onClick={handleClick}>{keyword}</KeywordBox>;
 };
 
-const Keywords = () => {
-  const { stockId } = useParams();
+const Keywords = ({ keywordList }) => {
   return (
     <KeywordList>
-      {DUMMY_KEYWORDS[stockId].map((keyword, idx) => (
-        <Keyword keyword={keyword} key={idx} />
+      {keywordList.map((keyword) => (
+        <Keyword keyword={keyword.name} key={keyword.id} />
       ))}
     </KeywordList>
   );
