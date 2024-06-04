@@ -1,4 +1,5 @@
 import emotionStyled from "@emotion/styled";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const Keyword = ({ keyword, keywordId, keywordDate }) => {
@@ -16,7 +17,18 @@ const Keyword = ({ keyword, keywordId, keywordDate }) => {
     );
   };
 
-  return <KeywordBox onClick={handleClick}>{keyword}</KeywordBox>;
+  const [isHover, setIsHover] = useState(false);
+
+  return (
+    <KeywordBox
+      onClick={handleClick}
+      onMouseOver={() => setIsHover(true)}
+      onMouseOut={() => setIsHover(false)}
+    >
+      {keyword}
+      {isHover && <HoverBox>{`${year}-${month}-${day}`}</HoverBox>}
+    </KeywordBox>
+  );
 };
 
 const Keywords = ({ keywordList }) => {
@@ -40,6 +52,11 @@ const KeywordList = emotionStyled.div`
   gap: 15px;
 `;
 
+const HoverBox = emotionStyled.div`
+  font-size: 13px;
+  font-weight:500;
+`;
+
 const KeywordBox = emotionStyled.button`
   background-color: #ddd;
   padding: 5px 8px;
@@ -47,6 +64,9 @@ const KeywordBox = emotionStyled.button`
   font-weight: 900;
   font-size: 16px;
   cursor: pointer;
+  height: fit-content;
+
+  position: relative;
 
   &:hover {
     background-color: purple;
