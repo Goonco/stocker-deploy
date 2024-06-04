@@ -2,13 +2,27 @@ import emotionStyled from "@emotion/styled";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 
 export const DisplayTitle = ({ stockName }) => {
+  const today = new Date();
+  const threeMonthsAgo = new Date();
+  threeMonthsAgo.setMonth(today.getMonth() - 3);
+
+  const formatDate = (date) => {
+    const year = date.getFullYear().toString().slice(2);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // 월은 0부터 시작하므로 +1
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}.${month}.${day}`;
+  };
+
+  const formattedToday = formatDate(today);
+  const formattedThreeMonthsAgo = formatDate(threeMonthsAgo);
+
   return (
     <DisplayPageContainer>
       <NameBox>
         <LeaderboardIcon fontSize="large" />
         <StockName>{stockName}</StockName>
       </NameBox>
-      <TimeBox>24.01.15 - 24.04.15</TimeBox>
+      <TimeBox>{`${formattedThreeMonthsAgo} - ${formattedToday}`}</TimeBox>
     </DisplayPageContainer>
   );
 };
