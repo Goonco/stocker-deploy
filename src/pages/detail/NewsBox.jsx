@@ -5,15 +5,12 @@ const NewsBox = ({ news }) => {
   return (
     <NewsContainer>
       <NewsTitle>{news.title}</NewsTitle>
-      <NewsBody>{news.detail}</NewsBody>
-      <div style={{ textAlign: "right" }}>
-        <Shortcut
-          to="https://n.news.naver.com/mnews/article/016/0002308823"
-          target="_blank"
-        >
-          바로가기
-        </Shortcut>
-      </div>
+      <MakeFlex>
+        <Link to={news.url} target="_blank">
+          <img src={news.imageUrl} style={{ width: "130px" }} />
+        </Link>
+        <NewsBody>{news.summary}</NewsBody>
+      </MakeFlex>
     </NewsContainer>
   );
 };
@@ -32,24 +29,12 @@ const NewsTitle = emotionStyled.span`
 `;
 
 const NewsBody = emotionStyled.span`
-  font-size: 12px;
+  font-size: 14px;
 `;
 
-const Shortcut = emotionStyled(Link)`
-  text-decoration: none;
-  margin-right: 10px;
-
-  background-color: #d896ff;
-  padding: 3px 8px;
-  border-radius: 999px;
-  color: white;
-
-  font-weight: 900;
-  font-size: 14px;
-
-  &:hover {
-    background-color: #800080;
-  }
+const MakeFlex = emotionStyled.div`
+  display: flex;
+  gap: 20px;
 `;
 
 export default NewsBox;

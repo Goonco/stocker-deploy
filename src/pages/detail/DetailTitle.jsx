@@ -1,13 +1,13 @@
 import emotionStyled from "@emotion/styled";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 export const DetailTitle = () => {
-  const { keywordId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   return (
     <DisplayPageContainer>
-      <KeywordName>{keywordId}</KeywordName>
-      <KeywordTime>📌 3월 둘째 주</KeywordTime>
+      <KeywordName>{searchParams.get("name")}</KeywordName>
+      <KeywordTime>📌 {searchParams.get("date")}</KeywordTime>
     </DisplayPageContainer>
   );
 };

@@ -1,11 +1,19 @@
 import emotionStyled from "@emotion/styled";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const Keyword = ({ keyword }) => {
+const Keyword = ({ keyword, keywordId, keywordDate }) => {
+  const { stockId } = useParams();
   const navigate = useNavigate();
 
+  const date = new Date(keywordDate);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // 월은 0부터 시작하므로 +1
+  const day = date.getDate().toString().padStart(2, "0");
+
   const handleClick = () => {
-    navigate(`/main/detail/${keyword}`);
+    navigate(
+      `/main/detail/${keywordId}?name=${keyword}&stockId=${stockId}&date=${`${year}-${month}-${day}`}`
+    );
   };
 
   return <KeywordBox onClick={handleClick}>{keyword}</KeywordBox>;
@@ -15,7 +23,12 @@ const Keywords = ({ keywordList }) => {
   return (
     <KeywordList>
       {keywordList.map((keyword) => (
-        <Keyword keyword={keyword.name} key={keyword.id} />
+        <Keyword
+          keyword={keyword.name}
+          key={keyword.id}
+          keywordId={keyword.id}
+          keywordDate={keyword.date}
+        />
       ))}
     </KeywordList>
   );
