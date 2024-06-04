@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { DUMMY_ID_TO_STOCK, DUMMY_KEYWORDS } from "../../mock/dummy_data";
 
 import { DisplayTitle } from "./DisplayTitle";
-import BasicComposition from "./test";
+import BasicComposition from "./BasicComposition";
 import Keywords from "./Keywords";
 import { Loading } from "../etc";
 
@@ -17,6 +17,7 @@ export const DisplayPage = () => {
   const [loading2, setLoading2] = useState(true);
 
   const [keywordList, setKeywordList] = useState([]);
+  const [stockData, setStockData] = useState(null);
 
   useEffect(() => {
     const falseLoading = async () => {
@@ -26,7 +27,7 @@ export const DisplayPage = () => {
       setLoading2(false);
     };
 
-    const fetchData = async () => {
+    const fetchData1 = async () => {
       try {
         const response = await axios.get(
           `${BASE_URL}/tickers/${stockId}/keywords`
@@ -35,6 +36,19 @@ export const DisplayPage = () => {
         setKeywordList(response.data.keywords);
 
         setLoading1(false);
+      } catch (e) {
+        console.log(`Error : ${e}`);
+      }
+    };
+
+    const fetchData2 = async () => {
+      try {
+        const response = await axios.get(
+          `${BASE_URL}/tickers/${stockId}/charts`
+        );
+
+        setStockData(response.data.output2.reverse());
+
         setLoading2(false);
       } catch (e) {
         console.log(`Error : ${e}`);
@@ -42,14 +56,15 @@ export const DisplayPage = () => {
     };
 
     // falseLoading();
-    fetchData();
+    fetchData1();
+    fetchData2();
   }, []);
 
   if (!(loading1 || loading2)) {
     return (
       <DisplayPageContainer>
         <DisplayTitle stockName={DUMMY_ID_TO_STOCK[stockId]} />
-        <BasicComposition stockId={stockId} />
+        <BasicComposition stockData={stockData} />
         <Keywords keywordList={keywordList} />
       </DisplayPageContainer>
     );

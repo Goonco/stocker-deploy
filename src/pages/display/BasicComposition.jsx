@@ -14,15 +14,20 @@ import { DUMMY_DATE, DUMMY_STOCK_VALUE } from "../../mock/dummy_graph";
 import { LineChart } from "@mui/x-charts/LineChart";
 import emotionStyled from "@emotion/styled";
 
-export default function BasicComposition({ stockId }) {
+export default function BasicComposition({ stockData }) {
   const [isResponsive, setIsResponsive] = React.useState(false);
 
   const Container = isResponsive ? ResponsiveChartContainer : ChartContainer;
   const sizingProps = isResponsive ? {} : { width: 400, height: 300 };
 
-  // console.log(DUMMY_DATE);
-  const dateData = DUMMY_DATE;
-  const costData = DUMMY_STOCK_VALUE[stockId];
+  const dateData = stockData.map((stock) => {
+    const dateString = stock.stck_bsop_date;
+    const year = parseInt(dateString.slice(0, 4), 10);
+    const month = parseInt(dateString.slice(4, 6), 10) - 1; // 월은 0부터 시작하므로 -1
+    const day = parseInt(dateString.slice(6, 8), 10);
+    return new Date(year, month, day);
+  });
+  const costData = stockData.map((stock) => stock.stck_clpr / 1000);
 
   return (
     <ChartBox>
@@ -31,7 +36,6 @@ export default function BasicComposition({ stockId }) {
           {
             data: dateData,
             valueFormatter: (mili, context) => {
-              // console.log(mili, context)
               let date = new Date(mili);
               return `${date.getMonth() + 1}.${date.getDate()}`;
             },
@@ -41,6 +45,7 @@ export default function BasicComposition({ stockId }) {
           {
             data: costData,
             showMark: ({ idx }) => false,
+            label: "K",
           },
         ]}
         width={500}
