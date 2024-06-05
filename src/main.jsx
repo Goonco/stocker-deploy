@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import emotionStyled from "@emotion/styled";
 
-export const BASE_URL = "http://3.36.243.210:8080";
+export const BASE_URL = "https://hyeongjun.store";
 
 const Wrapper = emotionStyled.div`
   width: 100vw;
