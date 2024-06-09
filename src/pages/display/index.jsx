@@ -11,6 +11,19 @@ import { Loading } from "../etc";
 import { BASE_URL } from "../../main";
 import axios from "axios";
 
+function areDatesEqual(date1, date2) {
+  const year = date2.substring(0, 4);
+  const month = date2.substring(4, 6) - 1;
+  const day = date2.substring(6, 8);
+
+  const dateObject = new Date(year, month, day);
+  return (
+    date1.getFullYear() === dateObject.getFullYear() &&
+    date1.getMonth() === dateObject.getMonth() &&
+    date1.getDate() === dateObject.getDate()
+  );
+}
+
 export const DisplayPage = () => {
   const { stockId } = useParams();
   const [loading1, setLoading1] = useState(true);
@@ -18,6 +31,17 @@ export const DisplayPage = () => {
 
   const [keywordList, setKeywordList] = useState([]);
   const [stockData, setStockData] = useState(null);
+  // console.log(keywordList);
+
+  const [clickedIdx, setClickedIdx] = useState(null);
+
+  const changeIdx = (d) => {
+    const stockDate = stockData[d.dataIndex].stck_bsop_date;
+    const selectKeyword = keywordList.filter((keywd) =>
+      areDatesEqual(new Date(keywd.date), stockDate)
+    );
+    setClickedIdx(selectKeyword.size === 0 ? null : selectKeyword[0]?.name);
+  };
 
   useEffect(() => {
     const falseLoading = async () => {
@@ -63,8 +87,11 @@ export const DisplayPage = () => {
   if (!(loading1 || loading2)) {
     return (
       <DisplayPageContainer>
-        <DisplayTitle stockName={DUMMY_ID_TO_STOCK[stockId]} />
-        <BasicComposition stockData={stockData} />
+        <DisplayTitle
+          stockName={DUMMY_ID_TO_STOCK[stockId]}
+          clickedIdx={clickedIdx}
+        />
+        <BasicComposition stockData={stockData} changeIdx={changeIdx} />
         <Keywords keywordList={keywordList} />
       </DisplayPageContainer>
     );

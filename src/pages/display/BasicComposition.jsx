@@ -14,7 +14,7 @@ import { DUMMY_DATE, DUMMY_STOCK_VALUE } from "../../mock/dummy_graph";
 import { LineChart } from "@mui/x-charts/LineChart";
 import emotionStyled from "@emotion/styled";
 
-export default function BasicComposition({ stockData }) {
+export default function BasicComposition({ stockData, changeIdx }) {
   const [isResponsive, setIsResponsive] = React.useState(false);
 
   const Container = isResponsive ? ResponsiveChartContainer : ChartContainer;
@@ -32,6 +32,7 @@ export default function BasicComposition({ stockData }) {
   return (
     <ChartBox>
       <LineChart
+        onMarkClick={(e, d) => changeIdx(d)}
         xAxis={[
           {
             data: dateData,
@@ -44,8 +45,8 @@ export default function BasicComposition({ stockData }) {
         series={[
           {
             data: costData,
-            showMark: ({ idx }) => false,
-            label: "K",
+            // showMark: ({ idx }) => false,
+            // label: "K",
           },
         ]}
         width={500}
@@ -91,15 +92,6 @@ export default function BasicComposition({ stockData }) {
   //   </ChartBox>
   // );
 }
-
-const FULLBOX = emotionStyled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: white;
-`;
 
 const ChartBox = emotionStyled.div`
   margin: -30px -40px -30px -40px;
