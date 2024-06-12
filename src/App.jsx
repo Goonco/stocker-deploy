@@ -36,8 +36,8 @@ function App() {
 
 const AppContainer = emotionStyled.div`
   margin: 0 auto;
-  width: 500px;
-  height: 100vh;
+  width: 400px;
+  height: 800px;
   background-color: #fff;
   overflow: scroll;
 `;
